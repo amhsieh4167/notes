@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Constants.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -14,24 +15,26 @@
 
 @implementation DetailViewController
 
+CGRect textViewEditFrame;
+
 - (void)dealloc
 {
     [_detailItem release];
-    [_detailDescriptionLabel release];
     [_dateLabel release];
     [super dealloc];
 }
 
-#pragma mark - Managing the detail item
+#pragma mark - Managing the detail item and SourceViewContext
 
-- (void)setDetailItem:(id)newDetailItem sourceViewContext: context
+- (void)setDetailItem:(id)newDetailItem setSourceViewContext:context
 {
-    if (_detailItem != newDetailItem) {
+    if (_detailItem != newDetailItem && _sourceContext != context) {
         [_detailItem release];
         _detailItem = [newDetailItem retain];
         
-        _sourceContext = context;
-
+        [_sourceContext release];
+        _sourceContext = [context retain];
+        
         // Update the view.
         [self configureView];
     }
@@ -67,8 +70,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    
+    [_oNoteTextView becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -102,11 +106,8 @@
     self.navigationItem.title = navTitle;
 }
 
-#pragma mark UITextViewDelegate protocol
-
-- (void)textViewDidChange:(UITextView *)textView
+-(void)updateNote
 {
-    [self setNavigationItemTitle];
     [_detailItem setValue:_oNoteTextView.text forKey:@"text"];
     [_detailItem setValue:[NSNumber numberWithBool:true] forKey:@"textDidEdit"];
     
@@ -118,6 +119,27 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    [_oNoteTextView resignFirstResponder];
+    _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewDefaultHeight);
+    
+    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(updateNote)] autorelease];
+    self.navigationItem.rightBarButtonItem = addButton;
+}
+
+#pragma mark UITextViewDelegate protocol
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    [self setNavigationItemTitle];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(updateNote)] autorelease];
+    self.navigationItem.rightBarButtonItem = doneButton;
+    
+    //set the frame size height to 165
+    _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewEditHeight);
 }
 
 //    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];

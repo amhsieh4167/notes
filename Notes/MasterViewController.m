@@ -63,6 +63,8 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
+    [self performSegueWithIdentifier:@"showDetail" sender:self];
 }
 
 #pragma mark - Table View
@@ -116,12 +118,32 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [[segue destinationViewController] setDetailItem:object sourceViewContext: context];
+        if([self.tableView indexPathForSelectedRow]) {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+        }
+        else {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+        }
+        // why does the origin method work? setDetailItem was note declared in DetailViewController's header
     }
 }
+
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+//        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+//        [[segue destinationViewController] setDetailItem:object sourceViewContext: context];
+//    }
+//}
 
 #pragma mark - Fetched results controller
 

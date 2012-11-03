@@ -25,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA938F751645D8D00055EAEC /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Notes/Constants.h; sourceTree = "<group>"; };
 		FA97973C16449403004C74FE /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA97974016449403004C74FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FA97974216449403004C74FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -66,6 +67,7 @@
 		FA97973116449403004C74FE = {
 			isa = PBXGroup;
 			children = (
+				FA938F751645D8D00055EAEC /* Constants.h */,
 				FA97974816449403004C74FE /* Notes */,
 				FA97976B1644B4E1004C74FE /* Images */,
 				FA97973F16449403004C74FE /* Frameworks */,
@@ -317,6 +319,7 @@
 				FA97976A16449403004C74FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
