@@ -81,7 +81,6 @@
 {
     NSString* navTitle = [[NSString alloc] initWithString:_oNoteTextView.text];
 
-    
     //look for "/n", and then set the navigation title lenght to be no more than 10"
     //this is necessary because the maxTitleRange.location is assigned a random character when initiated, and would cause the subStringWithRange to go out of bound
     //length is equal to location because rangeOfString returns the location of the enter string.
