@@ -21,6 +21,7 @@
 		FA97975F16449403004C74FE /* Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA97975D16449403004C74FE /* Notes.xcdatamodeld */; };
 		FA97976216449403004C74FE /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA97976116449403004C74FE /* MasterViewController.m */; };
 		FA97976516449403004C74FE /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA97976416449403004C74FE /* DetailViewController.m */; };
+		FA9797741644B973004C74FE /* old-paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA9797731644B973004C74FE /* old-paper.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		FA97976116449403004C74FE /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		FA97976316449403004C74FE /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		FA97976416449403004C74FE /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		FA9797731644B973004C74FE /* old-paper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "old-paper.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				FA97974816449403004C74FE /* Notes */,
+				FA97976B1644B4E1004C74FE /* Images */,
 				FA97973F16449403004C74FE /* Frameworks */,
 				FA97973D16449403004C74FE /* Products */,
 			);
@@ -117,6 +120,15 @@
 				FA97975816449403004C74FE /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA97976B1644B4E1004C74FE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FA9797731644B973004C74FE /* old-paper.jpg */,
+			);
+			name = Images;
+			path = Notes/Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +187,7 @@
 				FA97975716449403004C74FE /* Default@2x.png in Resources */,
 				FA97975916449403004C74FE /* Default-568h@2x.png in Resources */,
 				FA97975C16449403004C74FE /* MainStoryboard.storyboard in Resources */,
+				FA9797741644B973004C74FE /* old-paper.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

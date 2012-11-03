@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UITextViewDelegate>
 
 @property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) id sourceContext;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+
+@property (strong, nonatomic) IBOutlet UITextView *oNoteTextView;
 
 @end
