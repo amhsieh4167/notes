@@ -71,7 +71,12 @@ CGRect textViewEditFrame;
 {
     [super viewDidLoad];
     [self configureView];
-    
+        
+    [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(setTextViewAsFirstResponder) userInfo:nil repeats:NO];
+}
+
+-(void)setTextViewAsFirstResponder
+{
     [_oNoteTextView becomeFirstResponder];
 }
 
@@ -106,7 +111,42 @@ CGRect textViewEditFrame;
     self.navigationItem.title = navTitle;
 }
 
--(void)updateNote
+-(void)saveNote
+{
+    [_oNoteTextView resignFirstResponder];
+    
+    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
+    self.navigationItem.rightBarButtonItem = addButton;
+}
+
+//-(void) addNote
+//{
+//    // set MasterView alpha to 0
+//    // remove self from view
+//    // then call insertItem
+//    
+//    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+//    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+//    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context
+//}
+
+#pragma mark UITextViewDelegate protocol
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    [self setNavigationItemTitle];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(saveNote)] autorelease];
+    self.navigationItem.rightBarButtonItem = doneButton;
+    
+    //set the frame size height to 165
+    _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewEditHeight);
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
 {
     [_detailItem setValue:_oNoteTextView.text forKey:@"text"];
     [_detailItem setValue:[NSNumber numberWithBool:true] forKey:@"textDidEdit"];
@@ -119,27 +159,8 @@ CGRect textViewEditFrame;
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-    [_oNoteTextView resignFirstResponder];
+    
     _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewDefaultHeight);
-    
-    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(updateNote)] autorelease];
-    self.navigationItem.rightBarButtonItem = addButton;
-}
-
-#pragma mark UITextViewDelegate protocol
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    [self setNavigationItemTitle];
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(updateNote)] autorelease];
-    self.navigationItem.rightBarButtonItem = doneButton;
-    
-    //set the frame size height to 165
-    _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewEditHeight);
 }
 
 //    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];

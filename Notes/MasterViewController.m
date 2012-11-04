@@ -52,7 +52,7 @@
     
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:@"a new note" forKey:@"text"];
+    [newManagedObject setValue:@"new note" forKey:@"text"];
     [newManagedObject setValue:[NSDate date] forKey:@"date"];
     
     // Save the context.
@@ -118,21 +118,40 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [[[NSIndexPath alloc] init] autorelease];
+        
         if([self.tableView indexPathForSelectedRow]) {
-            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+            indexPath = [self.tableView indexPathForSelectedRow];
         }
         else {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+            indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         }
+        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        
         // why does the origin method work? setDetailItem was note declared in DetailViewController's header
+        [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
     }
 }
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+//        if([self.tableView indexPathForSelectedRow]) {
+//            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+//            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+//            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+//        }
+//        else {
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+//            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+//            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+//        }
+//        // why does the origin method work? setDetailItem was note declared in DetailViewController's header
+//    }
+//}
 
 //
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -162,7 +181,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"text" ascending:NO] autorelease];
+    NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO] autorelease];
     NSArray *sortDescriptors = @[sortDescriptor];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -234,20 +253,28 @@
     [self.tableView endUpdates];
 }
 
-/*
 // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
  
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
- */
+//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+//{
+//    // In the simplest, most efficient, case, reload the table view.
+//    [self.tableView reloadData];
+//}
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"text"] description];
+    
+    NSDate* date = [object valueForKey:@"date"];
+    
+    //set up the dateFormatter
+    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:@"h:mm a"];
+    NSString* dateText;
+    dateText = [dateFormatter stringFromDate:date];
+
+    cell.detailTextLabel.text = dateText;
 }
 
 @end
