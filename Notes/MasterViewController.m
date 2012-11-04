@@ -28,6 +28,11 @@
     [super dealloc];
 }
 
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [self.tableView reloadData];
+//}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,6 +41,11 @@
 
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)] autorelease];
     self.navigationItem.rightBarButtonItem = addButton;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,7 +62,7 @@
     
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:@"new note" forKey:@"text"];
+    //[newManagedObject setValue:@"" forKey:@"text"];
     [newManagedObject setValue:[NSDate date] forKey:@"date"];
     
     // Save the context.
@@ -130,7 +140,7 @@
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         
         // why does the origin method work? setDetailItem was note declared in DetailViewController's header
-        [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
+        [[segue destinationViewController] setDetailItem:object setContext:context];
     }
 }
 //

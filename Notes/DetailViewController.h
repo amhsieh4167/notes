@@ -18,6 +18,8 @@
 
 @property (strong, nonatomic) IBOutlet UITextView *oNoteTextView;
 
-- (void)setDetailItem:(id)newDetailItem setSourceViewContext:context;
+-(IBAction)deleteNote:(id)sender;
+
+- (void)setDetailItem:(id)newDetailItem setContext:context;
 
 @end

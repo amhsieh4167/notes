@@ -6,9 +6,10 @@
             <userInfo/>
         </attribute>
         <attribute name="textDidEdit" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <userInfo/>
     </entity>
     <elements>
-        <element name="Note" positionX="261" positionY="189" width="128" height="90"/>
+        <element name="Note" positionX="261" positionY="189" width="128" height="105"/>
     </elements>
 </model>
