@@ -45,7 +45,8 @@ CGRect textViewEditFrame;
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-                
+        
+        self.navigationItem.title = [[self.detailItem valueForKey:@"title"] description];
         self.oNoteTextView.text = [[self.detailItem valueForKey:@"text"] description];
         
         NSDate* date = [self.detailItem valueForKey:@"date"];
@@ -69,8 +70,7 @@ CGRect textViewEditFrame;
     
     if(! [_detailItem valueForKey:@"text"])
     {
-        //performSelector:<#(SEL)#> withObject:<#(id)#> afterDelay:<#(NSTimeInterval)#>
-        [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(setTextViewAsFirstResponder) userInfo:nil repeats:NO];
+        [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     else {
@@ -86,17 +86,16 @@ CGRect textViewEditFrame;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)setTitle
-{
+{    
     NSString *title = [[[NSString alloc] init] autorelease];
     
     NSRange enterKeyLocation;
     enterKeyLocation = [_oNoteTextView.text rangeOfString:@"\n"];
 
-    if(enterKeyLocation.location == 1) {
+    if(enterKeyLocation.length == 1 && enterKeyLocation.location != 0) {
         // an enter key has been found
         CGFloat titleLength;
         
@@ -115,41 +114,10 @@ CGRect textViewEditFrame;
     else {
         title = _oNoteTextView.text;
     }
-    
-    self.navigationItem.title = _oNoteTextView.text;
-//    
-//    
-//    
-//    if(![[_detailItem valueForKey:@"title"] description])
-//    {
-//        self.navigationItem.title = _oNoteTextView.text;
-//    }
+    self.navigationItem.title = title;
+    [_detailItem setValue:title forKey:@"title"];
+    [self saveContext];
 }
-//
-//        NSString* noteTitle = [[NSString alloc] initWithString:_oNoteTextView.text];
-//        
-//        //look for "/n", and then set the navigation title lenght to be no more than 10"
-//        //this is necessary because the maxTitleRange.location is assigned a random character when initiated, and would cause the subStringWithRange to go out of bound
-//        //length is equal to location because rangeOfString returns the location of the enter string.
-//        NSRange maxTitleRange;
-//        maxTitleRange = [noteTitle rangeOfString:@"\n"];
-//        
-//        if(maxTitleRange.length == 1) {
-//            if(maxTitleRange.location > 15) {
-//                maxTitleRange.length = 15;
-//            }
-//            else {
-//                maxTitleRange.length = maxTitleRange.location;
-//            }
-//        }
-//        maxTitleRange.location = 0;
-//        
-//        noteTitle = [noteTitle substringWithRange:maxTitleRange];
-//        
-//        self.navigationItem.title = noteTitle;
-//        [_detailItem setValue:noteTitle forKey:@"title"];
-//        [self saveContext];
-//    }
 
 -(void)saveNote
 {
@@ -189,13 +157,14 @@ CGRect textViewEditFrame;
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    [self setTitle];
     if([_oNoteTextView.text length] == 0) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
+    
+    [self setTitle];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -220,26 +189,5 @@ CGRect textViewEditFrame;
     }
     [self saveContext];
 }
-
-//    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-//    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-//    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-//    
-//    // If appropriate, configure the new managed object.
-//    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-//    [newManagedObject setValue:@"a new note" forKey:@"text"];
-//    [newManagedObject setValue:[NSDate date] forKey:@"date"];
-//
-//    
-//    mMMClass = (MMClass*)[NSEntityDescription insertNewObjectForEntityForName:@"MMClass"inManagedObjectContext:mManagedObjectContext];
-
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//        [[segue destinationViewController] setDetailItem:object];
-//    }
-//}
 
 @end

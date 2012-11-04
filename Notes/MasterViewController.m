@@ -28,11 +28,6 @@
     [super dealloc];
 }
 
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [self.tableView reloadData];
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -108,7 +103,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
+                
         NSError *error = nil;
         if (![context save:&error]) {
              // Replace this implementation with code to handle the error appropriately.
@@ -274,7 +269,7 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"text"] description];
+    cell.textLabel.text = [[object valueForKey:@"title"] description];
     
     NSDate* date = [object valueForKey:@"date"];
     
