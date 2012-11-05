@@ -53,7 +53,7 @@ CGRect textViewEditFrame;
         
         //set up the dateFormatter
         NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setDateFormat:@"MMM dd hh:mm"];
         NSString* dateText;
         dateText = [dateFormatter stringFromDate:date];
         
@@ -65,16 +65,13 @@ CGRect textViewEditFrame;
 {
     [super viewDidLoad];
     [self configureView];
-    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil] autorelease];
-    self.navigationItem.rightBarButtonItem = addButton;
     
-    if(! [_detailItem valueForKey:@"text"])
-    {
-        [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
-        self.navigationItem.rightBarButtonItem.enabled = NO;
+    if([_detailItem valueForKey:@"title"]) {
+        UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
+        self.navigationItem.rightBarButtonItem = addButton;
     }
     else {
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
     }
 }
 
@@ -91,29 +88,45 @@ CGRect textViewEditFrame;
 - (void)setTitle
 {    
     NSString *title = [[[NSString alloc] init] autorelease];
+    NSArray *component;
     
-    NSRange enterKeyLocation;
-    enterKeyLocation = [_oNoteTextView.text rangeOfString:@"\n"];
-
-    if(enterKeyLocation.length == 1 && enterKeyLocation.location != 0) {
-        // an enter key has been found
-        CGFloat titleLength;
-        
-        if(enterKeyLocation.location > 15) {
-            titleLength = 15;
-        }
-        else {
-            titleLength = enterKeyLocation.location;
-        }
-        
-        NSRange enterKeyRange;
-        enterKeyRange.location = 0;
-        enterKeyRange.length = titleLength;
-        title = [_oNoteTextView.text substringWithRange:enterKeyRange];
+    component = [_oNoteTextView.text componentsSeparatedByString:@"\n"];
+    int i = 0;
+    
+    while (i < [component count] && [component[i] isEqualToString: @""]) {
+        ++i;
     }
-    else {
-        title = _oNoteTextView.text;
+    
+    if ([_oNoteTextView.text length] < i) {
+        i = [_oNoteTextView.text length];
     }
+    
+    title = component[i];
+    NSLog(@"i is %i", i);
+    
+//    NSRange enterKeyLocation;
+//    enterKeyLocation = [_oNoteTextView.text rangeOfString:@"\n"];
+//
+//    if(enterKeyLocation.length == 1 && enterKeyLocation.location != 0) {
+//        // an enter key has been found
+//        CGFloat titleLength;
+//        
+//        if(enterKeyLocation.location > 15) {
+//            titleLength = 15;
+//        }
+//        else {
+//            titleLength = enterKeyLocation.location;
+//        }
+//        
+//        NSRange enterKeyRange;
+//        enterKeyRange.location = 0;
+//        enterKeyRange.length = titleLength;
+//        title = [_oNoteTextView.text substringWithRange:enterKeyRange];
+//    }
+//    else {
+//        title = _oNoteTextView.text;
+//    }
+    
     self.navigationItem.title = title;
     [_detailItem setValue:title forKey:@"title"];
     [self saveContext];
@@ -123,7 +136,7 @@ CGRect textViewEditFrame;
 {
     [_oNoteTextView resignFirstResponder];
     
-    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil] autorelease];
+    UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
@@ -142,15 +155,48 @@ CGRect textViewEditFrame;
     }
 }
 
-//-(void) addNote
-//{
-//    // set MasterView alpha to 0
-//    // remove self from view
-//    // then call insertItem
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
+
+-(void)addNote
+{
+    // add a new DetailedView
+    // remove self from view
+    //DetailViewController *newNote = [[DetailViewController alloc] initWithNibName:@"detailedViewController" bundle:nil];
+    
+    //[self.view addSubview:newNote.view];
+    
+    //[self.navigationController performSelector:@selector(insertNewObject:)];
+    //[self.navigationController popViewControllerAnimated:NO];
+    
 //    
-//    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-//    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-//    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context
+//    self per
+//    
+//    - (void)insertNewObject:(id)sender
+//    newNote =
+//
+//    gameViewController.view.alpha = 0.0f;
+//    [self.view addSubview:gameViewController.view];
+//    
+//    [UIView animateWithDuration:2.0
+//                     animations:^{
+//                         gameViewController.view.alpha = 1.0f;
+//                     }
+//                     completion:^(BOOL finished) {
+//                         [gameViewController startGame];
+//                     }];
+}
+//-(void) setRightNavButton
+//{
+//    if([_detailItem valueForKey:@"title"]) {
+//        UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
+//        self.navigationItem.rightBarButtonItem = addButton;
+//    }
+//    else {
+//        [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
+//    }
 //}
 
 #pragma mark UITextViewDelegate protocol
@@ -169,8 +215,15 @@ CGRect textViewEditFrame;
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-//    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(saveNote)] autorelease];
-//    self.navigationItem.rightBarButtonItem = doneButton;
+    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(saveNote)] autorelease];
+    self.navigationItem.rightBarButtonItem = doneButton;
+    
+    if ([_oNoteTextView.text length] != 0) {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
     
     //set the frame size height to 165
     _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewEditHeight);

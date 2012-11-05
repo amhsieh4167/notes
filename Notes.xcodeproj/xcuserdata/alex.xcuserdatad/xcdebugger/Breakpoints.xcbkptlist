@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Notes/DetailViewController.m"
-         timestampString = "373750787.701287"
+         timestampString = "373776247.001114"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
          landmarkName = "-textViewDidChange:"
          landmarkType = "5">
       </FileBreakpoint>

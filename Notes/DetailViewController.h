@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MasterViewController.h"
 
 @interface DetailViewController : UIViewController <UITextViewDelegate>
 
@@ -17,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (strong, nonatomic) IBOutlet UITextView *oNoteTextView;
+
+@property(nonatomic, retain) MasterViewController* delegate;
 
 -(IBAction)deleteNote:(id)sender;
 

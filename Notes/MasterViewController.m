@@ -36,6 +36,10 @@
 
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)] autorelease];
     self.navigationItem.rightBarButtonItem = addButton;
+    [self.navigationController.navigationBar setTintColor:[UIColor brownColor]];
+    
+    self.tableView.separatorColor = [UIColor lightGrayColor];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed: @"old-paper.jpg"]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -87,8 +91,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];    
     [self configureCell:cell atIndexPath:indexPath];
+
     return cell;
 }
 
@@ -138,36 +143,6 @@
         [[segue destinationViewController] setDetailItem:object setContext:context];
     }
 }
-//
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-//        if([self.tableView indexPathForSelectedRow]) {
-//            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-//            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
-//        }
-//        else {
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-//            [[segue destinationViewController] setDetailItem:object setSourceViewContext: context];
-//        }
-//        // why does the origin method work? setDetailItem was note declared in DetailViewController's header
-//    }
-//}
-
-//
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-//        [[segue destinationViewController] setDetailItem:object sourceViewContext: context];
-//    }
-//}
 
 #pragma mark - Fetched results controller
 
