@@ -27,7 +27,7 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="13">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.97373246173469385" green="0.96327276769050185" blue="0.85541229109951866" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="phq-AM-6qj" detailTextLabel="ufQ-io-Huo" style="IBUITableViewCellStyleValue1" id="lJ0-d7-vTF">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -81,16 +81,14 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="old-paper.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="aAa-kl-CMz" userLabel="OldPaperImage">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="568" id="MvC-Js-uOf"/>
-                                </constraints>
-                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mochi_note.png" translatesAutoresizingMaskIntoConstraints="NO" id="aAa-kl-CMz" userLabel="paperImage"/>
                             <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NoG-O5-LRe">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="IKA-Iu-GOf"/>
+                                    <constraint firstAttribute="height" constant="403" id="G7u-4Y-kyp"/>
+                                    <constraint firstAttribute="width" constant="286" id="yuh-Pl-rZT"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="21" id="paP-AD-zmY"/>
@@ -102,7 +100,7 @@
                                     <constraint firstAttribute="height" constant="21" id="sI7-5A-wLG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.59927056760204089" green="0.07689605566708832" blue="0.070342098689562232" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVZ-ru-e2a">
@@ -125,16 +123,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TVZ-ru-e2a" firstAttribute="centerX" secondItem="NoG-O5-LRe" secondAttribute="centerX" type="default" id="EzL-Cy-uO6"/>
+                            <constraint firstItem="aAa-kl-CMz" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" type="default" id="5Xg-7N-tWz"/>
                             <constraint firstItem="aAa-kl-CMz" firstAttribute="leading" secondItem="22" secondAttribute="leading" type="default" id="Gl9-2T-voN"/>
-                            <constraint firstAttribute="trailing" secondItem="VOm-dL-vc2" secondAttribute="trailing" constant="4" id="HZM-hj-EWU"/>
-                            <constraint firstItem="NoG-O5-LRe" firstAttribute="trailing" secondItem="22" secondAttribute="trailing" type="default" id="Jii-nt-Hea"/>
-                            <constraint firstItem="NoG-O5-LRe" firstAttribute="leading" secondItem="22" secondAttribute="leading" type="default" id="OT1-8F-XuU"/>
                             <constraint firstItem="aAa-kl-CMz" firstAttribute="trailing" secondItem="22" secondAttribute="trailing" type="default" id="SXg-H1-Zsd"/>
-                            <constraint firstItem="NoG-O5-LRe" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" type="default" id="WCI-xE-7lU"/>
+                            <constraint firstAttribute="trailing" secondItem="TVZ-ru-e2a" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Tz5-Rp-DD9"/>
                             <constraint firstItem="aAa-kl-CMz" firstAttribute="top" secondItem="22" secondAttribute="top" type="default" id="fpK-EX-RjZ"/>
+                            <constraint firstItem="NoG-O5-LRe" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="25" id="iFz-En-Oey"/>
                             <constraint firstAttribute="bottom" secondItem="TVZ-ru-e2a" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="mLT-8l-Yyb"/>
                             <constraint firstItem="VOm-dL-vc2" firstAttribute="top" secondItem="22" secondAttribute="top" type="default" id="r6X-B3-AU9"/>
+                            <constraint firstItem="NoG-O5-LRe" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" type="default" id="wIU-0W-TLb"/>
+                            <constraint firstItem="VOm-dL-vc2" firstAttribute="trailing" secondItem="NoG-O5-LRe" secondAttribute="trailing" type="default" id="yhf-KM-j4r"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="26" colorLabel="IBBuiltInLabel-Yellow"/>
@@ -150,6 +148,7 @@
     </scenes>
     <resources>
         <image name="Trash-can.png" width="256" height="256"/>
+        <image name="mochi_note.png" width="612" height="792"/>
         <image name="old-paper.jpg" width="760" height="1170"/>
     </resources>
     <classes>

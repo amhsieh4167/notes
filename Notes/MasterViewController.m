@@ -39,7 +39,7 @@
     [self.navigationController.navigationBar setTintColor:[UIColor brownColor]];
     
     self.tableView.separatorColor = [UIColor lightGrayColor];
-    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed: @"old-paper.jpg"]];
+    //self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed: @"old-paper.jpg"]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
