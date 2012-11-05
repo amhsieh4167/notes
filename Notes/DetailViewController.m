@@ -16,6 +16,7 @@
 @implementation DetailViewController
 
 CGRect textViewEditFrame;
+BOOL noTitle;
 
 - (void)dealloc
 {
@@ -53,7 +54,7 @@ CGRect textViewEditFrame;
         
         //set up the dateFormatter
         NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-        [dateFormatter setDateFormat:@"MMM dd hh:mm"];
+        [dateFormatter setDateFormat:@"MMM d hh:mm a"];
         NSString* dateText;
         dateText = [dateFormatter stringFromDate:date];
         
@@ -71,6 +72,9 @@ CGRect textViewEditFrame;
         self.navigationItem.rightBarButtonItem = addButton;
     }
     else {
+        UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(saveNote)] autorelease];
+        
+        [self.navigationItem setRightBarButtonItem:doneButton animated:YES];
         [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
     }
 }
@@ -100,32 +104,21 @@ CGRect textViewEditFrame;
     if ([_oNoteTextView.text length] < i) {
         i = [_oNoteTextView.text length];
     }
-    
     title = component[i];
+    
+    if ([title length] > 20) {
+        title = [title substringToIndex:20];
+    }
+    
     NSLog(@"i is %i", i);
     
-//    NSRange enterKeyLocation;
-//    enterKeyLocation = [_oNoteTextView.text rangeOfString:@"\n"];
-//
-//    if(enterKeyLocation.length == 1 && enterKeyLocation.location != 0) {
-//        // an enter key has been found
-//        CGFloat titleLength;
-//        
-//        if(enterKeyLocation.location > 15) {
-//            titleLength = 15;
-//        }
-//        else {
-//            titleLength = enterKeyLocation.location;
-//        }
-//        
-//        NSRange enterKeyRange;
-//        enterKeyRange.location = 0;
-//        enterKeyRange.length = titleLength;
-//        title = [_oNoteTextView.text substringWithRange:enterKeyRange];
-//    }
-//    else {
-//        title = _oNoteTextView.text;
-//    }
+    if([title isEqualToString:@""]) {
+        noTitle = true;
+        NSLog(@"no title equals to space");
+    }
+    else {
+        noTitle = false;
+    }
     
     self.navigationItem.title = title;
     [_detailItem setValue:title forKey:@"title"];
@@ -155,13 +148,9 @@ CGRect textViewEditFrame;
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
-}
-
 -(void)addNote
 {
+}
     // add a new DetailedView
     // remove self from view
     //DetailViewController *newNote = [[DetailViewController alloc] initWithNibName:@"detailedViewController" bundle:nil];
@@ -187,7 +176,7 @@ CGRect textViewEditFrame;
 //                     completion:^(BOOL finished) {
 //                         [gameViewController startGame];
 //                     }];
-}
+//}
 //-(void) setRightNavButton
 //{
 //    if([_detailItem valueForKey:@"title"]) {
@@ -203,14 +192,13 @@ CGRect textViewEditFrame;
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    if([_oNoteTextView.text length] == 0) {
+    [self setTitle];
+    if(noTitle) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
-    
-    [self setTitle];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -218,11 +206,12 @@ CGRect textViewEditFrame;
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(saveNote)] autorelease];
     self.navigationItem.rightBarButtonItem = doneButton;
     
-    if ([_oNoteTextView.text length] != 0) {
+    if([_detailItem valueForKey:@"title"]) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
+        noTitle = true;
     }
     
     //set the frame size height to 165
@@ -234,13 +223,13 @@ CGRect textViewEditFrame;
     //reset oNoteTextView to full size
     _oNoteTextView.frame = CGRectMake(_oNoteTextView.frame.origin.x, _oNoteTextView.frame.origin.y, _oNoteTextView.frame.size.width, TextViewDefaultHeight);
     
-    if([_oNoteTextView.text length] == 0) {
+    if(noTitle) {
         [_sourceContext deleteObject:_detailItem];
     }
     else {
         [_detailItem setValue:_oNoteTextView.text forKey:@"text"];
+        [self saveContext];
     }
-    [self saveContext];
 }
 
 @end

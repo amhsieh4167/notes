@@ -19,8 +19,6 @@
 
 @property (strong, nonatomic) IBOutlet UITextView *oNoteTextView;
 
-@property(nonatomic, retain) MasterViewController* delegate;
-
 -(IBAction)deleteNote:(id)sender;
 
 - (void)setDetailItem:(id)newDetailItem setContext:context;

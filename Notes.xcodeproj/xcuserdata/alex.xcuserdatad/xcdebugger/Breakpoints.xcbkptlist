@@ -8,13 +8,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Notes/DetailViewController.m"
-         timestampString = "373776247.001114"
+         timestampString = "374126800.990002"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "212"
-         endingLineNumber = "212"
-         landmarkName = "-textViewDidChange:"
-         landmarkType = "5">
+         startingLineNumber = "189"
+         endingLineNumber = "189"
+         landmarkName = "@implementation DetailViewController"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

@@ -53,6 +53,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)insert
+{
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    [newManagedObject setValue:[NSDate date] forKey:@"date"];
+    
+    // Save the context.
+    NSError *error = nil;
+    if (![context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 - (void)insertNewObject:(id)sender
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
@@ -67,8 +84,8 @@
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
-         // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
@@ -137,6 +154,7 @@
             indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         }
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        //NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         
         // why does the origin method work? setDetailItem was note declared in DetailViewController's header
@@ -250,7 +268,9 @@
     
     //set up the dateFormatter
     NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+
     [dateFormatter setDateFormat:@"h:mm a"];
+    
     NSString* dateText;
     dateText = [dateFormatter stringFromDate:date];
 
