@@ -7,9 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MasterViewController.h"
+
+//if delegate were to be used...
+//#import "MasterViewController.h"
+//
+//@protocol DetailViewDelegate <NSObject>
+//
+//@optional
+//- (void)delegateMethod;
+//
+//@end
 
 @interface DetailViewController : UIViewController <UITextViewDelegate>
+{
+    //id<DetailViewDelegate> delegate;
+}
+
+//if delegate were to be used...
+//@property (strong, nonatomic) id<DetailViewDelegate> delegate;
 
 @property (strong, nonatomic) id detailItem;
 
@@ -21,6 +36,6 @@
 
 -(IBAction)deleteNote:(id)sender;
 
-- (void)setDetailItem:(id)newDetailItem setContext:context;
+-(void)setDetailItem:(id)newDetailItem setContext:context;
 
 @end

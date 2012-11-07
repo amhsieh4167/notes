@@ -92,25 +92,25 @@ BOOL noTitle;
 - (void)setTitle
 {    
     NSString *title = [[[NSString alloc] init] autorelease];
-    NSArray *component;
+    NSArray *components;
     
-    component = [_oNoteTextView.text componentsSeparatedByString:@"\n"];
+    components = [_oNoteTextView.text componentsSeparatedByString:@"\n"];
+    NSLog(@"_oNoteTextView.text lenght is %i", [_oNoteTextView.text length]);
+    
     int i = 0;
-    
-    while (i < [component count] && [component[i] isEqualToString: @""]) {
+    while (i < [components count] && [components[i] isEqualToString: @""]) {
         ++i;
     }
     
-    if ([_oNoteTextView.text length] < i) {
-        i = [_oNoteTextView.text length];
+    if ([components count] - 1 < i) {
+        i = [components count] - 1;
     }
-    title = component[i];
+    title = components[i];
+    //NSLog(@"value of i is %i", i);
     
     if ([title length] > 20) {
         title = [title substringToIndex:20];
     }
-    
-    NSLog(@"i is %i", i);
     
     if([title isEqualToString:@""]) {
         noTitle = true;
@@ -127,6 +127,9 @@ BOOL noTitle;
 
 -(void)saveNote
 {
+    //an example if delegate were to be used...
+    //[delegate delegateMethod];
+    
     [_oNoteTextView resignFirstResponder];
     
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
@@ -151,44 +154,9 @@ BOOL noTitle;
 -(void)addNote
 {
 }
-    // add a new DetailedView
-    // remove self from view
-    //DetailViewController *newNote = [[DetailViewController alloc] initWithNibName:@"detailedViewController" bundle:nil];
-    
-    //[self.view addSubview:newNote.view];
-    
-    //[self.navigationController performSelector:@selector(insertNewObject:)];
-    //[self.navigationController popViewControllerAnimated:NO];
-    
-//    
-//    self per
-//    
-//    - (void)insertNewObject:(id)sender
-//    newNote =
-//
-//    gameViewController.view.alpha = 0.0f;
-//    [self.view addSubview:gameViewController.view];
-//    
-//    [UIView animateWithDuration:2.0
-//                     animations:^{
-//                         gameViewController.view.alpha = 1.0f;
-//                     }
-//                     completion:^(BOOL finished) {
-//                         [gameViewController startGame];
-//                     }];
-//}
-//-(void) setRightNavButton
-//{
-//    if([_detailItem valueForKey:@"title"]) {
-//        UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
-//        self.navigationItem.rightBarButtonItem = addButton;
-//    }
-//    else {
-//        [self performSelector:@selector(setTextViewAsFirstResponder) withObject:nil afterDelay:0.5f];
-//    }
-//}
 
 #pragma mark UITextViewDelegate protocol
+
 
 - (void)textViewDidChange:(UITextView *)textView
 {
