@@ -122,14 +122,27 @@ BOOL noTitle;
     
     self.navigationItem.title = title;
     [_detailItem setValue:title forKey:@"title"];
-    [self saveContext];
+}
+
+-(void)insertNewNote
+{
+//    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+//    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:_sourceContext];
+    [newManagedObject setValue:[NSDate date] forKey:@"date"];
+
+    // Save the context.
+    NSError *error = nil;
+    if (![_sourceContext save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 -(void)saveNote
-{
-    //an example if delegate were to be used...
-    //[delegate delegateMethod];
-    
+{    
     [_oNoteTextView resignFirstResponder];
     
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)] autorelease];
@@ -151,9 +164,6 @@ BOOL noTitle;
     }
 }
 
--(void)addNote
-{
-}
 
 #pragma mark UITextViewDelegate protocol
 
